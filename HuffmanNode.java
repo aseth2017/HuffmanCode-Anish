@@ -10,6 +10,17 @@ public class HuffmanNode implements Comparable<HuffmanNode>
 	private HuffmanNode left;
 	private HuffmanNode right;
 	/**
+	* Sets key to parameter while setting value, left, and right pointers to null
+	* @param k Key for the node
+	*/
+	public HuffmanNode(String k)
+	{
+		key = k;
+		value = 0;
+		left = null;
+		right = null;
+	}
+	/**
 	 * Sets key and value to parameters while setting left and right pointers to null
 	 * @param k Key for the node
 	 * @param v Value for the node
@@ -82,6 +93,22 @@ public class HuffmanNode implements Comparable<HuffmanNode>
 	public void setRight(HuffmanNode r)
 	{
 		right = r;
+	}
+	/**
+	 * Modifier that sets the key to the parameter
+	 * @param k New String the key will be set to
+	 */
+	public void setKey(String k)
+	{
+		key = k;
+	}
+	/**
+	 * Modifier that sets the value to the parameter
+	 * @param v New int the value will be set to
+	 */
+	public void setValue(int v)
+	{
+		value = v;
 	}
 	/**
 	 * Checks whether or not the current Huffman Node is a leaf
