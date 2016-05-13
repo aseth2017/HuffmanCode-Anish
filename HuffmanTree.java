@@ -2,58 +2,69 @@ import java.util.HashMap;
 import java.util.*;
 import java.util.PriorityQueue;
 /**
- * Class that creates a HuffmanTree
- * Creates a Priority and initializes the tree itself using a Hashmap
- * With help from Will Long
+ * Class that creates a HuffmanTree using HuffmanNodes
+ * Creates a Priority Queue and initializes the tree itself using a Hashmap
  * @author Anish Seth
  */
 public class HuffmanTree
 {
 	private HuffmanNode root;
+	private String s;
 	private HashMap<String, Integer> map;
 	private PriorityQueue<HuffmanNode> queue;
-	
-	public HuffmanTree(String input)
+
+	/**
+	* Constructor
+	* Initializes map, queue, and tree
+	*/
+	public HuffmanTree(String string)
 	{
-		map = new HashMap<String, Integer>();
-		queue = new PriorityQueue<HuffmanNode>();
-		for(int i = 0; i < input.length(); i++)
-		{
-			if(map.containsKey(input.substring(i,i + 1)))
-				map.put(input.substring(i,i + 1), map.get(input.substring(i,i + 1)) + 1);
-			else
-				map.put(input.substring(i,i + 1), 1);
-		}
-		initQueue();
-		initTree();
+		s = string;
+		root = null;
+		createqueue();
+		createmap();
+		createtree();
 	}
-	public PriorityQueue<HuffmanNode> initQueue()
+	public void createqueue()
 	{
-		String[] key =  map.keySet().toArray(new String[0]);
+		queue = new PriorityQueue<HuffmanNode>();
+		Object[] key = map.keySet().toArray();
 		for(int i = 0; i < key.length; i++)
 		{
-			queue.add(new HuffmanNode(key[i], map.get(key[i])));
+			queue.add(new HuffmanNode(key[i].toString(), map.get(key[i])));
 		}
-		return queue;
 	}
-	public HuffmanNode initTree()
+	public void createmap()
 	{
+		map = new HashMap<String, Integer>();
+		for(int i = 0; i < s.length(); i++)
+		{
+			String hold = s.charAt(i);
+			if(map.containsKey(hold))
+			{
+				int index = map.get(i);
+				map.remove(i);
+				map.put(hold, index + 1);
+			}
+			else
+			{
+				map.put(hold, 1);
+			}
+		}
+	}
+	public void createtree()
+	{
+		HuffmanNode hold;
 		while(queue.size() > 1)
 		{
-			HuffmanNode top = queue.poll();
-			HuffmanNode topv2 = queue.poll();
-			HuffmanNode hold = new HuffmanNode(top.getKey() + topv2.getKey(), top.getValue() + topv2.getValue());
+			hold = new HuffmanNode(queue.poll(), queue.poll());
+			queue.add(hold);
 			root = hold;
-			queue.add(root);
-			hold.setLeft(top);
-			hold.setRight(topv2);
-
 		}
-		return root;
 	}
-	public String encoder(String s)
+	public String encode()
 	{
-		String encode = "";
+		String encode;
 		for(int i = 0; i < s.length(); i++)
 		{
 			HuffmanNode hold = root;
